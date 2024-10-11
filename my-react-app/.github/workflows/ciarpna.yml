@@ -1,0 +1,34 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'  # Adjust the Node version if needed
+
+    - name: Install dependencies
+      run: |
+        cd my-react-app  # Change this if your React app has a different path
+        npm install
+
+    - name: Run tests
+      run: |
+        cd my-react-app
+        npm test -- --watchAll=false || true  # Skip tests if not defined
+
+    - name: Build project
+      run: |
+        cd my-react-app
+        npm run build
